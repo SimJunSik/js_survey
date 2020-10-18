@@ -113,7 +113,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Crontab
 CRONJOBS = [
-    ('1 * * * *', 'survey.utils.crontab.send_result'),
+    ('*/5 * * * *', 'survey.utils.crontab.send_result'),
 ]
 CRONTAB_LOCK_JOBS = True
 
