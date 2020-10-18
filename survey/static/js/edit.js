@@ -53,6 +53,7 @@ const addOption = async (target) => {
 
         const newDeleteButton = document.createElement("button");
         newDeleteButton.setAttribute("id", `question${questionId}_delete_button${optionId}`);
+        newDeleteButton.setAttribute("class", "option-delete-button");
         newDeleteButton.setAttribute("data-question-id", questionId);
         newDeleteButton.setAttribute("data-option-id", optionId);
         newDeleteButton.innerHTML = '삭제';
@@ -77,6 +78,12 @@ const addOption = async (target) => {
 const deleteOption = async (target) => {
     const questionId = target.dataset.questionId;
     const optionId = target.dataset.optionId;
+    const question = document.getElementById(`question${questionId}`);
+    const optionNum = question.getElementsByClassName('option').length;
+    if(optionNum == 1){
+        alert("옵션은 1개 이상이어야 합니다.");
+        return;
+    }
 
     const csrftoken = getCookie('csrftoken');
     const response = await fetch(`/survey/question/${questionId}/option/${optionId}/`, {

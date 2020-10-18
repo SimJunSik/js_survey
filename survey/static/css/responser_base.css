@@ -50,6 +50,10 @@ button:hover {
 
 /* mobile */
 @media screen and (max-width: 1024px) {
+  body,
+  html {
+    width: 100%;
+  }
   /* header */
   header {
     position: fixed;

@@ -206,7 +206,9 @@ def responser(request):
         return render(request, 'survey/responser.html', context)
     elif request.method == 'POST':
         phone_number = request.POST.get('phone_number')
+        survey = Survey.objects.get(id=1)
         new_response = Response.objects.create(
+            survey=survey,
             responser=phone_number
         )
 
