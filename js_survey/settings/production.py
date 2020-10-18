@@ -1,6 +1,8 @@
 from .base import *
-secrets = json.load(open(SECRET_DIR / 'secrets.json', 'rb'))
+import pymysql
 
+pymysql.install_as_MySQLdb()
+secrets = json.load(open(SECRET_DIR / 'secrets.json', 'rb'))
 DEBUG = False
 
 DATABASES = {
