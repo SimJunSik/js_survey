@@ -23,7 +23,7 @@
                 {{question.title}}
             </h2>
             <div class="question_response_count">
-                응답: <strong>{{question.options.all.count}}</strong> 개
+                응답: <strong>{{question.answers.all.count}}</strong> 개
             </div>
             <ul class="option_list">
                 {% for option in question.options.all %}
