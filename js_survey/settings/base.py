@@ -113,9 +113,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Crontab
 CRONJOBS = [
-    ('*/5 * * * *', 'survey.utils.crontab.send_result'),
+    ('0 */6 * * *', 'survey.utils.crontab.send_result',
+     '> /home/ubuntu/js_survey_env/js_survey/survey/utils/update.log 2>&1'),
 ]
-CRONTAB_LOCK_JOBS = True
+CRONTAB_DJANGO_SETTINGS_MODULE = 'js_survey.settings.production'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
