@@ -73,6 +73,15 @@ document.addEventListener("DOMContentLoaded", function(){
     /*
         사용자가 설문 제출 호출시, 중복 응답자 체크 함수 등록
     */
-    const form = document.getElementById('survey-form');
-    form.addEventListener('submit', check_submit);
+    document.getElementById('survey-form').addEventListener('submit', check_submit);
+
+    /*
+        핸드폰번호 입력시 자동으로 '-' 붙게 하는 함수 등록
+    */
+    document.getElementById('phone_number').addEventListener('keyup', (event) => {
+        const { target } = event;
+        if(target.value.length === 3 || target.value.length === 8){
+            target.value = target.value + '-'
+        }
+    })
 });
