@@ -60,11 +60,21 @@ document.addEventListener("DOMContentLoaded", function(){
             const checkOrder = document.getElementById(`question${event.target.name}_order`);
             const targetOrder = event.target.value;
             const prevOrder = checkOrder.value;
-            let currentOrder;
+            let currentOrder = prevOrder;
             if(event.target.checked){
-                currentOrder = prevOrder + ' ' + targetOrder;
+                if(currentOrder.length === 0){
+                    currentOrder = targetOrder;
+                } else {
+                    currentOrder = prevOrder + ', ' + targetOrder;
+                }
             } else {
-                currentOrder = prevOrder.replace(targetOrder, '');
+                if(currentOrder === targetOrder){
+                    currentOrder = prevOrder.replace(targetOrder, '');
+                } else if(currentOrder.indexOf(targetOrder) === 0){
+                    currentOrder = prevOrder.replace(targetOrder + ', ', '');
+                } else{
+                    currentOrder = prevOrder.replace(', ' + targetOrder, '');
+                }
             }
             checkOrder.setAttribute('value', currentOrder);
         })

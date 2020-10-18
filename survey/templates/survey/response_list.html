@@ -10,9 +10,9 @@
 응답 리스트
 {% endblock %}
 {% block content %}
-{% if survey.responses.all.count > 0 %}
+{% if survey.response_count > 0 %}
     <h3 class="response_total_num">
-        총 {{survey.responses.all.count}}명
+        총 {{survey.response_count}}명
     </h3>
     <div class="response_index-wrapper">
         <button onclick="prev_response_index();"><</button>
@@ -21,7 +21,7 @@
                 1
             </span> / 
             <span id="response_index_last">
-                {{survey.responses.all.count}}
+                {{survey.response_count}}
             </span>
         </div>
         <button onclick="next_response_index();">></button>
@@ -65,7 +65,7 @@
                 {% elif answer.question.question_type == 'checkbox' %}
                         {% for option in answer.question.options.all %}
                         <div class="question_option">
-                            {% if option.content in answer.check_box_order.order %}
+                            {% if option.content in answer.content %}
                                 <input 
                                     type="checkbox" 
                                     id="option{{option.id}}"
@@ -83,7 +83,7 @@
                         </div>
                         {% endfor %}
                         <div class="answer_order">
-                            선택한 순서 : {{answer.check_box_order.order}}
+                            선택한 순서 : {{answer.content}}
                         </div>
                 {% endif %}
                 <br><br>

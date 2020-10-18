@@ -12,7 +12,8 @@ def edit(request):
     """
         설문 내용 편집 페이지 render
     """
-    survey = Survey.objects.get(id=1)
+    survey = Survey.objects.filter(
+        id=1).prefetch_related('questions__options')[0]
 
     context = {
         'survey': survey,
@@ -204,7 +205,8 @@ def responser(request):
             - 사용자들이 제출한 설문 결과 DB에 저장
     """
     if request.method == 'GET':
-        survey = Survey.objects.get(id=1)
+        survey = Survey.objects.filter(
+            id=1).prefetch_related('questions__options')[0]
 
         context = {
             'survey': survey
@@ -219,7 +221,10 @@ def responser(request):
         )
 
         for key in request.POST:
-            content = " ".join(request.POST.getlist(key)).strip()
+            content = ",".join(request.POST.getlist(key))
+            print(key, request.POST.getlist(key))
+            print(content)
+            print()
             if key.isnumeric():
                 question = Question.objects.get(id=key)
                 new_answer = Answer.objects.create(
@@ -232,12 +237,14 @@ def responser(request):
                 question = Question.objects.get(id=question_id)
                 answer = Answer.objects.get(
                     response=new_response,
-                    question=question
+                    question=question,
                 )
-                new_check_box_order = CheckBoxOrder.objects.create(
-                    answer=answer,
-                    order=content
-                )
+                answer.content = content
+                answer.save()
+                # new_check_box_order = CheckBoxOrder.objects.create(
+                #     answer=answer,
+                #     order=content
+                # )
 
         return redirect('/survey/result/')
 
@@ -250,7 +257,8 @@ def responses(request):
     """
         현재까지 저장된 설문결과를 응답자 별로 보여주는 페이지 render
     """
-    survey = Survey.objects.get(id=1)
+    survey = Survey.objects.filter(
+        id=1).prefetch_related('responses__answers__question__options')[0]
 
     context = {
         'survey': survey,
@@ -264,10 +272,10 @@ def statistics(request):
         현재까지 저장된 설문결과의 통계를 보여주는 페이지 render
     """
     survey = Survey.objects.prefetch_related(
-        'questions__answers').prefetch_related('questions__options').all()
+        'questions__answers').prefetch_related('questions__options').all()[0]
 
     context = {
-        'survey': survey[0],
+        'survey': survey,
         'category': 'statistics'
     }
     return render(request, 'survey/statistics.html', context)
@@ -281,7 +289,8 @@ def download_result(reqeust):
     res = HttpResponse(content_type='text/csv')
     res['Content-Disposition'] = 'attachment; filename="result.csv"'
 
-    survey = Survey.objects.get(id=1)
+    survey = Survey.objects.filter(
+        id=1).prefetch_related('responses__answers__question__options')[0]
     responses = survey.responses.all()
     writer = csv.writer(res)
 
@@ -294,13 +303,13 @@ def download_result(reqeust):
             writer.writerow(['옵션'])
             if answer.question.question_type == 'checkbox':
                 for option in answer.question.options.all():
-                    if option.content in answer.check_box_order.order:
+                    if option.content in answer.content:
                         check = 'O'
                     else:
                         check = ''
                     writer.writerow(['', option.content, check])
-                check_order = " -> ".join(answer.check_box_order.order.split(' '))
-                writer.writerow(['체크순서', check_order])
+                if answer.question.limit > 1:
+                    writer.writerow(['체크순서', answer.content])
             else:
                 for option in answer.question.options.all():
                     if answer.content == option.content:

@@ -12,6 +12,10 @@ class Survey(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def response_count(self):
+        return self.responses.all().count()
+
 
 class Question(models.Model):
     """
@@ -57,19 +61,18 @@ class Option(models.Model):
         """
             question_type에 따라 해당 Option 응답 비율 return
         """
+        answers = self.question.answers.all()
         if self.question.question_type == 'checkbox':
             total_count = 0
             this_count = 0
-            for answer in self.question.answers.all():
-                splited_answer = answer.content.split(' ')
+            for answer in answers:
+                splited_answer = answer.content.split(',')
                 total_count += len(splited_answer)
-                for checked_option in splited_answer:
-                    if checked_option == self.content:
-                        this_count += 1
+                if self.content in answer.content:
+                    this_count += 1
         else:
-            total_count = self.question.answers.all().count()
-            this_count = self.question.answers.filter(
-                content=self.content).count()
+            total_count = answers.count()
+            this_count = answers.filter(content=self.content).count()
 
         try:
             result = this_count/total_count * 100
@@ -103,15 +106,3 @@ class Answer(models.Model):
 
     def __str__(self):
         return '{} : {}'.format(self.question, self.content)
-
-
-class CheckBoxOrder(models.Model):
-    """
-        질문 형식이 체크박스 일 때, 순서 저장 Model
-    """
-    answer = models.OneToOneField(
-        Answer, on_delete=models.CASCADE, related_name='check_box_order', null=True, blank=True)
-    order = models.CharField(max_length=100, default='')
-
-    def __str__(self):
-        return '{} : {}'.format(self.answer, self.order)
