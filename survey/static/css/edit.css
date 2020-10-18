@@ -79,7 +79,7 @@ input:focus {
 }
 /* end common input */
 /* mobile */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   /* survey */
   .survey-button-wrapper {
     margin: 30px 0px;
@@ -91,15 +91,16 @@ input:focus {
   }
   .question-wrapper {
     position: relative;
-    width: 100%;
     height: auto;
-    padding: 100px 5px 100px 5px;
+    padding: 80px 20px;
     border: 1px solid midnightblue;
   }
-  .question > select,
-  input {
-    font-size: 40px;
+  .question > input {
+    font-size: 0.8rem;
     margin-top: 10px;
+  }
+  .question_type {
+    font-size: 0.8rem;
   }
   /* end question */
   /* option */

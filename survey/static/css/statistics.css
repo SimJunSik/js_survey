@@ -37,10 +37,11 @@
 .bar_chart {
   width: 540px;
   height: 300px;
+  display: none;
 }
 /* end google chart */
 /* mobile */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   /* question */
   .question-list {
     width: 100%;
@@ -48,16 +49,16 @@
   .question-wrapper {
     position: relative;
     height: auto;
-    padding: 60px 40px;
+    padding: 20px 20px;
     background-color: white;
     border-radius: 20px;
     margin-bottom: 10px;
-    font-size: 2.5rem;
+    font-size: 1rem;
   }
   /* end question */
   /* option */
   .option {
-    margin-top: 30px;
+    margin-top: 20px;
   }
   /* end option */
   /* google chart */
@@ -65,6 +66,7 @@
   .bar_chart {
     width: 100%;
     height: 500px;
+    display: none;
   }
   /* end google chart */
 }

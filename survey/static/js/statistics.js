@@ -15,9 +15,17 @@ const drawChart = () => {
     questions.forEach((question) => {
         const questionType = question.dataset.type;
         const questionTitle = question.dataset.title;
+        const answerCount = question.dataset.answerCount;
         const contentArray = question.querySelectorAll('.option_content');
         const optionArray = question.querySelectorAll('.option_response_rate');
         const dataArray = new Array();
+        
+        console.log(answerCount);
+        if(answerCount === '0'){
+            console.log("!!!");
+            return;
+        }
+
         dataArray.push(['', questionTitle]);
         for(let i=0;i<contentArray.length;i++){
             dataArray.push([contentArray[i].innerHTML.trim(), parseFloat(optionArray[i].innerHTML.trim())]);
@@ -30,7 +38,9 @@ const drawChart = () => {
             options = {
                 title: questionTitle,
             };
-            chart = new google.visualization.PieChart(document.getElementById(`piechart${idx}`));
+            const targetChart = document.getElementById(`piechart${idx}`);
+            chart = new google.visualization.PieChart(targetChart);
+            targetChart.style.display = 'block';
         } else if(questionType === 'checkbox'){
             options = {
                 title: questionTitle,
@@ -44,13 +54,17 @@ const drawChart = () => {
                 },
                 bar: { groupWidth: "90%" }
             };
-            chart = new google.charts.Bar(document.getElementById(`top_x_div${idx}`));
+            const targetChart = document.getElementById(`top_x_div${idx}`);
+            chart = new google.charts.Bar(targetChart);
+            targetChart.style.display = 'block';
         } else if(questionType === 'select'){
             options = {
                 title: questionTitle,
                 pieHole: 0.4
             };
-            chart = new google.visualization.PieChart(document.getElementById(`piechart${idx}`));
+            const targetChart = document.getElementById(`piechart${idx}`);
+            chart = new google.visualization.PieChart(targetChart);
+            targetChart.style.display = 'block';
         }
         chart.draw(data, options);
         idx += 1;
