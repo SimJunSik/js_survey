@@ -29,6 +29,29 @@ const check_limit = (options) => {
 */
 const check_submit = async (event) => {
     event.preventDefault();
+    const checkBoxes = document.querySelectorAll('input[type="checkbox"]');
+    const checkBoxNameArray = new Set();
+    checkBoxes.forEach((checkBox) => {
+        const { name } = checkBox;
+        if(name.length > 0){
+            checkBoxNameArray.add(checkBox.name);
+        }
+    });
+    const noCheckedBoxArray = new Array();
+    checkBoxNameArray.forEach((checkBoxName) => {
+        const checkedNum = document.querySelectorAll(`input[name="${checkBoxName}"]:checked`).length;
+        if(checkedNum === 0){
+            const checkBox = document.querySelector(`input[name="${checkBoxName}"]`);
+            // checkBox.scrollIntoView(true);
+            noCheckedBoxArray.push(checkBox);
+        }
+    })
+    if(noCheckedBoxArray.length > 0){
+        noCheckedBoxArray[0].scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+        alert("체크 되지 않은 문항이 있습니다.");
+        return;
+    }
+
     const { target } = event;
     const responser = document.querySelector('input[name="phone_number"]').value;
     

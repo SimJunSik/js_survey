@@ -221,16 +221,17 @@ def responser(request):
         )
 
         for key in request.POST:
-            content = ",".join(request.POST.getlist(key))
-            print(key, request.POST.getlist(key))
-            print(content)
-            print()
+            data = request.POST.getlist(key)
+            content = ", ".join(data)
+
             if key.isnumeric():
+                answer_count = len(data)
                 question = Question.objects.get(id=key)
                 new_answer = Answer.objects.create(
                     response=new_response,
                     question=question,
-                    content=content
+                    content=content,
+                    answer_count=answer_count
                 )
             elif 'order' in key:
                 question_id = key.split('_')[0].split('question')[1]
@@ -241,10 +242,6 @@ def responser(request):
                 )
                 answer.content = content
                 answer.save()
-                # new_check_box_order = CheckBoxOrder.objects.create(
-                #     answer=answer,
-                #     order=content
-                # )
 
         return redirect('/survey/result/')
 
@@ -308,7 +305,7 @@ def download_result(reqeust):
                     else:
                         check = ''
                     writer.writerow(['', option.content, check])
-                if answer.question.limit > 1:
+                if answer.answer_count > 1:
                     writer.writerow(['체크순서', answer.content])
             else:
                 for option in answer.question.options.all():

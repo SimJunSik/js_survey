@@ -66,8 +66,7 @@ class Option(models.Model):
             total_count = 0
             this_count = 0
             for answer in answers:
-                splited_answer = answer.content.split(',')
-                total_count += len(splited_answer)
+                total_count += answer.answer_count
                 if self.content in answer.content:
                     this_count += 1
         else:
@@ -103,6 +102,7 @@ class Answer(models.Model):
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE, related_name='answers')
     content = models.CharField(max_length=50)
+    answer_count = models.IntegerField(default=1)
 
     def __str__(self):
         return '{} : {}'.format(self.question, self.content)

@@ -82,9 +82,11 @@
                             </label>
                         </div>
                         {% endfor %}
-                        <div class="answer_order">
-                            선택한 순서 : {{answer.content}}
-                        </div>
+                        {% if answer.answer_count > 1 %}
+                            <div class="answer_order">
+                                선택한 순서 : {{answer.content}}
+                            </div>
+                        {% endif %}
                 {% endif %}
                 <br><br>
             {% endfor %}
