@@ -79,7 +79,10 @@ document.addEventListener("DOMContentLoaded", function(){
         핸드폰번호 입력시 자동으로 '-' 붙게 하는 함수 등록
     */
     document.getElementById('phone_number').addEventListener('keyup', (event) => {
-        const { target } = event;
+        const { target, key } = event;
+        if(key === 'Backspace' && (target.value.length === 3 || target.value.length === 8)){
+            target.value = target.value.substring(0, target.value.length-1);
+        }
         if(target.value.length === 3 || target.value.length === 8){
             target.value = target.value + '-'
         }
