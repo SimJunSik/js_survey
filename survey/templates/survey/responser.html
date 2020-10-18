@@ -43,7 +43,7 @@
             {% elif question.question_type == 'select' %}
                 <select name="{{question.id}}">
                 {% for option in question.options.all %}       
-                    <option value={{option.content}}>{{option.content}}</option>
+                    <option value="{{option.content}}">{{option.content}}</option>
                 {% endfor %}
                 </select>
             {% elif question.question_type == 'checkbox' %}

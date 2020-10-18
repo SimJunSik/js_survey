@@ -156,10 +156,10 @@ const addQuestion = async (survey_id) => {
         newLimitInput.setAttribute("max", "1");
         newLimitInput.setAttribute("disabled", "true");
 
-        const typeArray = ['radio','checkbox','select','text'];
+        const typeArray = ['radio','checkbox','select'];
         typeArray.forEach((type) => {
             const option = document.createElement("option");
-            option.setAttribute("value", type);
+            option.setAttribute("value", `${type}`);
             option.innerHTML = type;
 
             newSelectType.appendChild(option);
