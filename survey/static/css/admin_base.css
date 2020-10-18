@@ -1,0 +1,166 @@
+/* body */
+body {
+  background-color: #edf2ff;
+}
+/* end body */
+/* header */
+header {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  height: 120px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 1px 1px 5px 1px black;
+}
+.header {
+  font-weight: unset;
+  padding: 10px 5px;
+}
+.header-nav {
+  position: relative;
+  background-color: #edf2ff;
+  border-radius: 10px 10px 0px 0px;
+  padding: 20px 10px;
+  text-align: center;
+  margin-top: auto;
+  border: 1px solid #dbe4ff;
+}
+.header-nav > a {
+  padding: 10px 20px;
+}
+.header-nav-active {
+  border-bottom: 1px solid black;
+}
+.download-result {
+  position: absolute;
+  top: 40px;
+  right: 80px;
+  background-color: black;
+  color: white;
+  padding: 15px 8px;
+  border-radius: 10px;
+}
+/* end header */
+/* container */
+#container {
+  width: 1024px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+/* end container */
+/* common button */
+button {
+  padding: 10px 25px;
+  background-color: #ff6b6b;
+  border: 1px solid #ffc9c9;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+button:hover {
+  opacity: 0.5;
+}
+/* end common button */
+/* etc */
+.blank-div {
+  width: 100%;
+  height: 150px;
+}
+.nothing-text {
+  font-size: 40px;
+  margin-top: 20px;
+}
+.nothing-image {
+  width: 800px;
+}
+/* end etc */
+
+/* mobile */
+@media screen and (max-width: 1024px) {
+  /* header */
+  header {
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    height: 240px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 1px 1px 5px 1px black;
+  }
+  .header {
+    width: 60%;
+    font-weight: 900;
+    padding: 10px 5px;
+    font-size: 50px;
+    text-align: center;
+    overflow-y: scroll;
+    margin-top: 10px;
+  }
+  .header-nav {
+    position: relative;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #edf2ff;
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px 10px;
+    text-align: center;
+    margin-top: auto;
+  }
+  .header-nav > a {
+    font-size: 2rem;
+    padding: 10px 40px;
+  }
+  .header-nav-active {
+    border-bottom: 1px solid black;
+  }
+  .download-result {
+    position: absolute;
+    width: 100px;
+    top: 40px;
+    right: 30px;
+    background-color: black;
+    color: white;
+    padding: 15px 8px;
+    border-radius: 10px;
+    font-size: 1.5rem;
+  }
+  /* end header */
+  /* common button */
+  button {
+    padding: 10px 25px;
+    background-color: #ff6b6b;
+    border-radius: 10px;
+    font-size: 2rem;
+  }
+  /* end common button */
+  /* container */
+  #container {
+    width: 768px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+  }
+  /* end container */
+  /* etc */
+  .blank-div {
+    width: 100%;
+    height: 250px;
+  }
+  .nothing-text {
+    font-size: 60px;
+    margin-top: 20px;
+  }
+  .nothing-image {
+    width: 100%;
+  }
+  /* end etc */
+}
+/* end mobile */

@@ -1,0 +1,107 @@
+/* response */
+.response-list {
+  width: 60%;
+}
+.response_total_num {
+  padding-bottom: 10px;
+}
+.response_index-wrapper {
+  display: flex;
+  width: 200px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5px;
+}
+.response_index {
+  font-size: 20px;
+}
+.response-wrapper {
+  border: 1px solid #dbe4ff;
+  background-color: white;
+  padding: 30px 30px;
+  border-radius: 20px;
+  display: none;
+}
+.response-wrapper:nth-child(1) {
+  display: block;
+}
+.response_responser {
+  padding: 10px 5px;
+}
+/* end response */
+/* question */
+.question_title {
+  padding: 10px 5px;
+}
+.question_option {
+  padding: 5px 5px;
+}
+/* end question */
+/* answer */
+.answer_order {
+  padding: 5px 5px;
+}
+/* end answer */
+/* mobile */
+@media screen and (max-width: 1024px) {
+  /* response */
+  .response-list {
+    width: 100%;
+  }
+  .response_total_num {
+    font-size: 50px;
+    padding-bottom: 20px;
+  }
+  .response_index-wrapper {
+    display: flex;
+    width: 400px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+  }
+  .response_index-wrapper > button {
+    font-size: 80px;
+    padding: 0px 20px;
+  }
+  .response_index {
+    font-size: 70px;
+  }
+  .response-wrapper {
+    width: 100%;
+    border: 1px solid midnightblue;
+    padding: 10px 25px;
+    font-size: 2.5rem;
+  }
+  input[type="radio"],
+  input[type="checkbox"] {
+    width: 40px;
+    height: 40px;
+  }
+  select {
+    padding: 10px 10px;
+    font-size: 2.5rem;
+  }
+  .response_responser {
+    padding: 30px 10px;
+  }
+  /* end response */
+  /* question */
+  .question-list {
+    width: 100%;
+  }
+  .question-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 100px 5px 100px 5px;
+    border: 1px solid midnightblue;
+    font-size: 2.5rem;
+  }
+  /* end question */
+  /* option */
+  .option {
+    margin-top: 30px;
+  }
+  /* end option */
+}
+/* end mobile */

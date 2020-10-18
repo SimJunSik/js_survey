@@ -1,0 +1,28 @@
+/* 
+  common reset css
+*/
+* {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  border: 0;
+  outline: 0;
+}
+ul,
+ol,
+dl {
+  list-style: none;
+}
+img,
+video {
+  max-width: 100%;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+body {
+  font-family: "돋움";
+  font-size: 100%;
+  line-height: 1;
+}

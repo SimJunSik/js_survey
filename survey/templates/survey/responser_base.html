@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- end meta -->
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responser_base.css' %}">
+    {% block css %}{% endblock %}
+    <!-- end css -->
+    <!-- js -->
+    {% block js %}{% endblock %}
+    <!-- end js -->
+    <title>{% block title %}JS survey{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1 class="header">
+            {{survey.title}}
+        </h1>
+    </header>
+    <div class="blank-div"></div>
+    <div class="container" id="container">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends 'survey/admin_base.html' %}
+{% load static %}
+{% block js %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="{% static 'js/statistics.js' %}" defer></script>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/statistics.css' %}">
+{% endblock %}
+{% block title %}
+통계
+{% endblock %}
+{% block content %}
+{% if survey.responses.all.count > 0 %}
+    <div class="question-list">
+    {% for question in survey.questions.all %}
+        <div 
+            id="{{question.id}}" 
+            class="question-wrapper" 
+            data-title="{{question.title}}" 
+            data-type="{{question.question_type}}">
+            <h2 class="question_title">
+                {{question.title}}
+            </h2>
+            <div class="question_response_count">
+                응답: <strong>{{question.options.all.count}}</strong> 개
+            </div>
+            <ul class="option_list">
+                {% for option in question.options.all %}
+                    <li class="option">
+                        <span class="option_content">
+                            {{option.content}} 
+                        </span>
+                        <span class="option_response_rate">
+                            {{option.response_rate|floatformat:"-2"}} %
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if question.question_type == 'radio' %}
+                <div id="piechart{{forloop.counter}}" class="pie_chart"></div>
+            {% elif question.question_type == 'checkbox' %}
+                <div id="top_x_div{{forloop.counter}}" class="bar_chart"></div>
+            {% elif question.question_type == 'select' %}
+                <div id="piechart{{forloop.counter}}" class="pie_chart"></div>
+            {% endif %}
+            <br><br>
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
+    <div class="nothing-text">
+        아직 응답이 없어요
+    </div>
+    <img class="nothing-image" src="{% static 'images/nothing.png' %}"/>
+{% endif %}
+{% endblock %}

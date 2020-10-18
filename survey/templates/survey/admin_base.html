@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- end meta -->
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_base.css' %}">
+    {% block css %}{% endblock %}
+    <!-- end css -->
+    <!-- js -->
+    {% block js %}{% endblock %}
+    <!-- end js -->
+    <title>{% block title %}JS survey{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h2 class="header">
+            {{survey.title}}
+        </h2>
+        <nav class="header-nav">
+            {% if category == 'edit' %}
+                <a class="header-nav-active" href="/survey/edit/">편집</a>
+                <a href="/survey/statistics/">통계 보기</a>
+                <a href="/survey/responses/">응답별로 보기</a>
+            {% elif category == 'statistics' %}
+                <a href="/survey/edit/">편집</a>
+                <a class="header-nav-active" href="/survey/statistics/">통계 보기</a>
+                <a href="/survey/responses/">응답별로 보기</a>
+            {% elif category == 'responses' %}
+                <a href="/survey/edit/">편집</a>
+                <a href="/survey/statistics/">통계 보기</a>
+                <a class="header-nav-active" href="/survey/responses/">응답별로 보기</a>
+            {% endif %}
+        </nav>
+        <a class="download-result" href="/survey/download-result/">설문결과 다운받기</a>
+    </header>
+    <div class="blank-div"></div>
+    <div class="container" id="container">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+</html>

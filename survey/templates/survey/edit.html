@@ -1,0 +1,93 @@
+{% extends 'survey/admin_base.html' %}
+{% load static %}
+{% block js %}
+<script type="text/javascript" src="{% static 'js/edit.js' %}" defer></script>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/edit.css' %}">
+{% endblock %}
+{% block title %}
+설문 편집
+{% endblock %}
+{% block content %}
+<div class="survey_title-wrapper">
+    <input type="text" class="survey_title" placeholder="설문지 제목 입력" value="{{survey.title}}">
+</div>
+<div class="survey-button-wrapper">
+    <button onclick="addQuestion({{survey.id}})">질문 추가</button>
+    <button onclick="saveSurveyAll({{survey.id}})">설문 전체 저장</button>
+</div>
+<ul class="question-list">
+    {% for question in survey.questions.all %}
+        <li class="question-wrapper" id="question{{question.id}}">
+            <div class="question-button-wrapper">
+                <button
+                    class="question-delete-button"
+                    data-question-id="{{question.id}}">
+                    질문 삭제
+                </button>
+                <button
+                    class="question-save-button"
+                    data-question-id="{{question.id}}">
+                    저장
+                </button>
+            </div>
+            <input type="text" placeholder="질문 제목 입력" value={{question.title}} class="question_title">
+            <select 
+                name="question{{question.id}}_type" 
+                id="question{{question.id}}_type" 
+                class="question_type">
+                {% if question.question_type == 'select' %}
+                    <option value="radio">radio</option>
+                    <option value="checkbox">checkbox</option>
+                    <option value="select" selected>select</option>
+                {% elif question.question_type == 'checkbox' %}
+                    <option value="radio">radio</option>
+                    <option value="checkbox" selected>checkbox</option>
+                    <option value="select">select</option>
+                {% elif question.question_type == 'radio' %}
+                    <option value="radio" selected>radio</option>
+                    <option value="checkbox">checkbox</option>
+                    <option value="select">select</option>
+                {% endif %}
+            </select>
+            {% if question.question_type == 'checkbox' %}
+                <input 
+                    type="number" 
+                    class="question_limit" 
+                    value={{question.limit}}
+                    data-limit={{question.options.all.count}}
+                    min="1" 
+                    max="{{question.options.all.count}}">
+            {% else %}
+                <input type="number" class="question_limit" value={{question.limit}} min="1" max="1" disabled>
+            {% endif %}
+                <button class="option-add-button" data-question-id="{{question.id}}">옵션 추가</button>
+            {% for option in question.options.all %}
+                <div class="option" id="question{{question.id}}_option{{option.id}}">
+                    <input 
+                        type="radio" 
+                        id="question{{question.id}}_option{{option.id}}_raido" 
+                        name="question{{question.id}}" 
+                        disabled>
+                    <label for="question{{question.id}}_option{{option.id}}">
+                        <input 
+                            type="text" 
+                            placeholder="옵션 입력"
+                            id="question{{question.id}}_option{{option.id}}"
+                            name="question{{question.id}}_option{{option.id}}"
+                            value="{{option.content}}">
+                    </label>
+                    <button 
+                        class="option-delete-button"
+                        data-question-id="{{question.id}}" 
+                        data-option-id="{{option.id}}">
+                        삭제
+                    </button>
+                </div>
+            {% endfor %}
+        </li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

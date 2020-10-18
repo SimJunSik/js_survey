@@ -1,0 +1,81 @@
+/* form */
+#survey-form {
+  width: 100%;
+  font-size: 1.5rem;
+}
+/* end form */
+/* question */
+.question-wrapper {
+  position: relative;
+  height: auto;
+  padding: 60px 40px;
+  background-color: white;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  border: 1px solid #dbe4ff;
+}
+.question_title {
+  padding: 10px 5px;
+}
+/* end question */
+/* option */
+.option_list {
+  padding: 10px 10px;
+}
+.option {
+  display: flex;
+  align-items: center;
+  padding: 3px 5px;
+  margin-bottom: 10px;
+}
+.option > input {
+  margin-right: 10px;
+}
+/* end option */
+/* input, select */
+input,
+select {
+  padding: 15px 10px;
+  background-color: #ced4da;
+  border: 1px solid #adb5bd;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+input:focus,
+select:focus {
+  background-color: #adb5bd;
+}
+input:valid {
+  border-color: green;
+}
+/* end input, select */
+/* submit */
+.submit-wrapper {
+  padding: 10px 5px;
+  text-align: center;
+}
+/* end submit */
+/* mobile */
+@media screen and (max-width: 1024px) {
+  #survey-form {
+    width: 100%;
+    font-size: 2rem;
+  }
+  .question-wrapper {
+    padding: 80px 50px;
+  }
+  input[type="radio"],
+  input[type="checkbox"] {
+    width: 40px;
+    height: 40px;
+  }
+  select {
+    padding: 10px 10px;
+    font-size: 2.5rem;
+  }
+  input {
+    font-size: 40px;
+    margin-top: 10px;
+  }
+}
+/* end mobile */

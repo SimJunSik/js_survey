@@ -1,0 +1,100 @@
+{% extends 'survey/admin_base.html' %}
+{% load static %}
+{% block js %}
+<script type="text/javascript" src="{% static 'js/response_list.js' %}" defer></script>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/response_list.css' %}">
+{% endblock %}
+{% block title %}
+응답 리스트
+{% endblock %}
+{% block content %}
+{% if survey.responses.all.count > 0 %}
+    <h3 class="response_total_num">
+        총 {{survey.responses.all.count}}명
+    </h3>
+    <div class="response_index-wrapper">
+        <button onclick="prev_response_index();"><</button>
+        <div class="response_index">
+            <span id="response_index_current">
+                1
+            </span> / 
+            <span id="response_index_last">
+                {{survey.responses.all.count}}
+            </span>
+        </div>
+        <button onclick="next_response_index();">></button>
+    </div>
+    <div class="response-list">
+    {% for response in survey.responses.all %}
+        <div class="response-wrapper">
+            <h3 class="response_responser">
+                {{response.responser}}
+            </h3>
+            <div>
+                응답날짜 : {{response.created_at| date:'Y-m-d, H:i' }}
+            </div>
+            {% for answer in response.answers.all %}
+                <h4 class="question_title">
+                    {{answer.question}}
+                </h4>
+                {% if answer.question.question_type == 'radio' %}
+                    {% for option in answer.question.options.all %}
+                        <div class="question_option">
+                            {% if option.content == answer.content %}
+                                <input type="radio" name="{{question.id}}" id="option{{option.id}}" disabled checked>
+                            {% else %}    
+                                <input type="radio" name="{{question.id}}" id="option{{option.id}}" disabled>
+                            {% endif %}
+                            <label for="option{{option.id}}">
+                                {{option.content}}
+                            </label>
+                        </div>
+                    {% endfor %}
+                {% elif answer.question.question_type == 'select' %}     
+                    <select name="{{question.id}}" disabled>
+                        {% for option in answer.question.options.all %}
+                            {% if option.content == answer.content %}
+                                <option value={{option.content}} selected>{{option.content}}</option>
+                            {% else %}    
+                                <option value={{option.content}}>{{option.content}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                {% elif answer.question.question_type == 'checkbox' %}
+                        {% for option in answer.question.options.all %}
+                        <div class="question_option">
+                            {% if option.content in answer.check_box_order.order %}
+                                <input 
+                                    type="checkbox" 
+                                    id="option{{option.id}}"
+                                    disabled
+                                    checked>
+                            {% else %}
+                                <input 
+                                    type="checkbox" 
+                                    id="option{{option.id}}"
+                                    disabled>
+                            {% endif %}
+                            <label for="option{{option.id}}">
+                                {{option.content}}
+                            </label>
+                        </div>
+                        {% endfor %}
+                        <div class="answer_order">
+                            선택한 순서 : {{answer.check_box_order.order}}
+                        </div>
+                {% endif %}
+                <br><br>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
+    <div class="nothing-text">
+        아직 응답이 없어요
+    </div>
+    <img class="nothing-image" src="{% static 'images/nothing.png' %}"/>
+{% endif %}
+{% endblock %}

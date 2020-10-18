@@ -1,0 +1,79 @@
+{% extends 'survey/responser_base.html' %}
+{% load static %}
+{% block js %}
+<script type="text/javascript" src="{% static 'js/responser.js' %}" defer></script>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/responser.css' %}">
+{% endblock %}
+{% block title %}
+설문 참여 페이지
+{% endblock %}
+{% block content %}
+<form id="survey-form" method='POST' action='./'>
+    {% csrf_token %}
+    {% for question in survey.questions.all %}
+    <div class="question-wrapper">
+        <div class="question_title">
+            Q{{forloop.counter}}.
+            <h3>
+                {{question.title}}
+            </h3>
+            {% if question.limit >= 2 %}
+                <span style="color: red;">
+                    * 중복선택가능(최대 {{question.limit}}개)
+                </span>
+            {% endif %}
+        </div>
+        <div class="option_list">
+            {% if question.question_type == 'radio' %}
+                {% for option in question.options.all %}
+                    <div class="option">
+                        <input 
+                            type="radio" 
+                            name="{{question.id}}" 
+                            id="option{{option.id}}" 
+                            value="{{option.content}}"
+                            required>
+                        <label for="option{{option.id}}">
+                            {{option.content}}
+                        </label>
+                    </div>
+                {% endfor %}
+            {% elif question.question_type == 'select' %}
+                <select name="{{question.id}}">
+                {% for option in question.options.all %}       
+                    <option value={{option.content}}>{{option.content}}</option>
+                {% endfor %}
+                </select>
+            {% elif question.question_type == 'checkbox' %}
+                <div id="question{{question.id}}_option"
+                    class="question_option"
+                    onclick="return check_limit(this)" 
+                    data-limit={{question.limit}}>
+                    {% for option in question.options.all %}
+                    <div class="option">
+                        <input 
+                            type="checkbox" 
+                            name="{{question.id}}" 
+                            id="option{{option.id}}"
+                            class="option{{question.id}}_check"
+                            value="{{option.content}}">
+                        <label for="option{{option.id}}">
+                            {{option.content}}
+                        </label>
+                    </div>
+                    {% endfor %}
+                    <input type="hidden" id="question{{question.id}}_order" value="" name="question{{question.id}}_order">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    <div class="submit-wrapper">
+        <input type="tel" placeholder="010-0000-0000" name="phone_number" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+        <br><br>
+        <button type="submit">제출</button>
+    </div>
+</form>
+{% endblock %}
