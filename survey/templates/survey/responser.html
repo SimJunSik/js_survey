@@ -48,7 +48,7 @@
                 </select>
             {% elif question.question_type == 'checkbox' %}
                 <div id="question{{question.id}}_option"
-                    class="question_option"
+                    class="checkbox-wrapper"
                     onclick="return check_limit(this)" 
                     data-limit={{question.limit}}>
                     {% for option in question.options.all %}
