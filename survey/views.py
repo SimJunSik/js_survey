@@ -22,6 +22,7 @@ def edit(request):
     return render(request, 'survey/edit.html', context)
 
 
+@csrf_exempt
 def create_question(request):
     """
         새로운 Question 생성
@@ -45,6 +46,7 @@ def create_question(request):
         })
 
 
+@csrf_exempt
 def delete_update_question(request, question_id):
     """
         question_id 에 해당하는 Question 삭제 혹은 업데이트
@@ -101,6 +103,7 @@ def delete_update_question(request, question_id):
             })
 
 
+@csrf_exempt
 def create_option(request, question_id):
     """
         question_id 에 해당하는 Question에 새로운 option 생성
@@ -128,6 +131,7 @@ def create_option(request, question_id):
         })
 
 
+@csrf_exempt
 def delete_option(request, question_id, option_id):
     """
         option_id 에 해당하는 Option 삭제
@@ -152,6 +156,7 @@ def delete_option(request, question_id, option_id):
         })
 
 
+@csrf_exempt
 def update_all_question(request):
     """
         설문 전체 내용 업데이트
@@ -190,6 +195,7 @@ def update_all_question(request):
         })
 
 
+@csrf_exempt
 def responser(request):
     """
         # GET
