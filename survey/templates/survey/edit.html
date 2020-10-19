@@ -10,12 +10,29 @@
 설문 편집
 {% endblock %}
 {% block content %}
+{% if survey %}
 <div class="survey_title-wrapper">
     <input type="text" class="survey_title" placeholder="설문지 제목 입력" value="{{survey.title}}">
 </div>
 <div class="survey-button-wrapper">
     <button onclick="addQuestion({{survey.id}})">질문 추가</button>
     <button onclick="saveSurveyAll({{survey.id}})">설문 전체 저장</button>
+    <button onclick="delete_survey({{survey.id}})">설문 삭제</button>
+    {% if survey.is_activated %}
+        <button 
+            id="survey-toggle-button" 
+            onclick="toggle_survey(this, {{survey.id}})" 
+            data-is-activated="활성화">
+            응답 비활성화
+        </button>
+    {% else %}
+        <button 
+            id="survey-toggle-button"
+            onclick="toggle_survey(this, {{survey.id}})" 
+            data-is-activated="비활성화">
+            응답 활성화
+        </button>
+    {% endif %}
 </div>
 <ul class="question-list">
     {% for question in survey.questions.all %}
@@ -90,4 +107,7 @@
     {% endfor %}
 </ul>
 </div>
+{% else %}
+<button onclick="create_survey()">설문 생성</button>
+{% endif %}
 {% endblock %}

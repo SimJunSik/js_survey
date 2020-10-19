@@ -13,8 +13,7 @@ def edit(request):
     """
         설문 내용 편집 페이지 render
     """
-    survey = Survey.objects.filter(
-        id=1).prefetch_related('questions__options')[0]
+    survey = Survey.objects.prefetch_related('questions__options').first()
 
     context = {
         'survey': survey,
@@ -24,6 +23,52 @@ def edit(request):
     return render(request, 'survey/edit.html', context)
 
 
+def create_survey(request):
+    """
+        새로운 Survey 생성
+    """
+    new_survey = Survey.objects.create()
+
+    return redirect('/edit/')
+
+
+def delete_survey(request, survey_id):
+    """
+        Survey 삭제
+
+        ---
+        # Query Params
+            - survey_id : Integer
+    """
+    new_survey = Survey.objects.get(id=survey_id).delete()
+
+    return redirect('/edit/')
+
+
+def toggle_survey(request, survey_id):
+    """
+        Survey 활성상태 toggle 
+
+        ---
+        # Query Params
+            - survey_id : Integer
+    """
+    try:
+        survey = Survey.objects.get(id=survey_id)
+        survey.is_activated = not survey.is_activated
+        survey.save()
+
+        return JsonResponse({
+            'result': 'SUCCESS',
+            'description': 'SUCCESSED TOGGLE SURVEY'
+        })
+    except:
+        return JsonResponse({
+            'result': 'FAIL',
+            'description': 'FAILED TOGGLE SURVEY'
+        })
+
+
 @csrf_exempt
 def create_question(request):
     """
@@ -31,7 +76,7 @@ def create_question(request):
     """
     try:
         req_json = json.load(request)
-        survey = Survey.objects.get(id=1)
+        survey = Survey.objects.first()
         new_question = Question.objects.create(
             survey=survey
         )
@@ -44,7 +89,7 @@ def create_question(request):
     except:
         return JsonResponse({
             'result': 'FAIL',
-            'description': 'FAILED CREATE QUESTION',
+            'description': 'FAILED CREATE QUESTION'
         })
 
 
@@ -207,8 +252,7 @@ def responser(request):
             - 사용자들이 제출한 설문 결과 DB에 저장
     """
     if request.method == 'GET':
-        survey = Survey.objects.filter(
-            id=1).prefetch_related('questions__options')[0]
+        survey = Survey.objects.prefetch_related('questions__options').first()
 
         context = {
             'survey': survey
@@ -216,7 +260,7 @@ def responser(request):
         return render(request, 'survey/responser.html', context)
     elif request.method == 'POST':
         phone_number = request.POST.get('phone_number')
-        survey = Survey.objects.get(id=1)
+        survey = Survey.objects.first()
         new_response = Response.objects.create(
             survey=survey,
             responser=phone_number
@@ -260,8 +304,8 @@ def responses(request):
     """
         현재까지 저장된 설문결과를 응답자 별로 보여주는 페이지 render
     """
-    survey = Survey.objects.filter(
-        id=1).prefetch_related('responses__answers__question__options')[0]
+    survey = Survey.objects.prefetch_related(
+        'responses__answers__question__options').first()
 
     context = {
         'survey': survey,
@@ -275,7 +319,7 @@ def statistics(request):
         현재까지 저장된 설문결과의 통계를 보여주는 페이지 render
     """
     survey = Survey.objects.prefetch_related(
-        'questions__answers').prefetch_related('questions__options').all()[0]
+        'questions__answers').prefetch_related('questions__options').first()
 
     context = {
         'survey': survey,
@@ -296,8 +340,8 @@ def download_result(reqeust):
     res['Content-Disposition'] = 'attachment; filename="[{}]result.csv"'.format(
         now_date)
 
-    survey = Survey.objects.filter(
-        id=1).prefetch_related('responses__answers__question__options')[0]
+    survey = Survey.objects.prefetch_related(
+        'responses__answers__question__options').first()
     responses = survey.responses.all()
     writer = csv.writer(res)
 

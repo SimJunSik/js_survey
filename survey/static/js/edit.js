@@ -1,10 +1,46 @@
 /*
+    설문 생성
+*/
+const create_survey = () => {
+    location.href = '/survey/';
+}
+
+/*
+    설문 삭제
+*/
+const delete_survey = (survey_id) => {
+    location.href = `/survey/${survey_id}/`;
+}
+
+/*
+    설문 응답 상태 toggle
+*/
+const toggle_survey = async (target, survey_id) => {
+    const is_activated = target.dataset.isActivated;
+    const confirmResult = confirm(`응답을 ${is_activated} 하시겠습니까?`);
+    if(confirmResult){
+        const response = await fetch(`/survey/${survey_id}/toggle/`);
+        const data = await response.json();
+        if(data.result === 'SUCCESS'){
+            if(is_activated === '활성화'){
+                target.innerHTML = '응답 활성화';
+                target.setAttribute('data-is-activated', '비활성화');
+            } else {
+                target.innerHTML = '응답 비활성화';
+                target.setAttribute('data-is-activated', '활성화');
+            }
+        } else {
+            alert(`응답 ${is_activated} 실패`);
+        }
+    }
+}
+
+/*
     questionId에 해당하는 Question에
     새로운 Option 생성을 호출하는 함수
 */
 const addOption = async (target) => {
     const questionId = target.dataset.questionId;
-
     const response = await fetch(`/question/${questionId}/option/`, {
         method: 'POST'
     });
@@ -59,24 +95,27 @@ const addOption = async (target) => {
     optionId 해당하는 Option 삭제를 호출하는 함수
 */
 const deleteOption = async (target) => {
-    const questionId = target.dataset.questionId;
-    const optionId = target.dataset.optionId;
-    const question = document.getElementById(`question${questionId}`);
-    const optionNum = question.getElementsByClassName('option').length;
-    if(optionNum == 1){
-        alert("옵션은 1개 이상이어야 합니다.");
-        return;
-    }
-
-    const response = await fetch(`/question/${questionId}/option/${optionId}/`, {
-        method: 'DELETE'
-    });
-    const data = await response.json();
-    if(data.result === 'SUCCESS'){
-        const targetOption = document.getElementById(`question${questionId}_option${optionId}`);
-        targetOption.remove();
-    } else if(data.result === 'FAIL'){
-        alert("옵션 삭제 실패");
+    const confirmResult = confirm("해당 옵션을 삭제 하시겠습니까?");
+    if(confirmResult){
+        const questionId = target.dataset.questionId;
+        const optionId = target.dataset.optionId;
+        const question = document.getElementById(`question${questionId}`);
+        const optionNum = question.getElementsByClassName('option').length;
+        if(optionNum == 1){
+            alert("옵션은 1개 이상이어야 합니다.");
+            return;
+        }
+    
+        const response = await fetch(`/question/${questionId}/option/${optionId}/`, {
+            method: 'DELETE'
+        });
+        const data = await response.json();
+        if(data.result === 'SUCCESS'){
+            const targetOption = document.getElementById(`question${questionId}_option${optionId}`);
+            targetOption.remove();
+        } else if(data.result === 'FAIL'){
+            alert("옵션 삭제 실패");
+        }
     }
 }
 
@@ -153,6 +192,7 @@ const addQuestion = async (survey_id) => {
         newItem.appendChild(newAddOptionButton);
         questionList.appendChild(newItem);
         await addOption(newAddOptionButton);
+        newItem.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
     } else if(data.result === 'FAIL'){
         alert("질문 생성 실패");
     }
@@ -221,17 +261,20 @@ const saveSurveyAll = async (surveyId) => {
     questionId에 해당하는 Question 삭제를 호출하는 함수
 */
 const deleteQuestion = async (target) => {
-    const questionId = target.dataset.questionId;
-    const targetQuestion = document.getElementById(`question${questionId}`);
-
-    const response = await fetch(`/question/${questionId}/`, {
-        method: 'DELETE',
-    })
-    const data = await response.json();
-    if(data.result === 'SUCCESS'){
-        targetQuestion.remove();
-    } else if(data.result === 'FAIL'){
-        alert("질문 삭제 실패");
+    const confirmResult = confirm("해당 질문을 삭제 하시겠습니까?");
+    if(confirmResult){
+        const questionId = target.dataset.questionId;
+        const targetQuestion = document.getElementById(`question${questionId}`);
+    
+        const response = await fetch(`/question/${questionId}/`, {
+            method: 'DELETE',
+        })
+        const data = await response.json();
+        if(data.result === 'SUCCESS'){
+            targetQuestion.remove();
+        } else if(data.result === 'FAIL'){
+            alert("질문 삭제 실패");
+        }
     }
 }
 

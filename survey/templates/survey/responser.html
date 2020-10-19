@@ -10,6 +10,7 @@
 설문 참여 페이지
 {% endblock %}
 {% block content %}
+{% if survey and survey.is_activated %}
 <form id="survey-form" method='POST' action='./'>
     {% csrf_token %}
     {% for question in survey.questions.all %}
@@ -82,4 +83,9 @@
         <button type="submit">제출</button>
     </div>
 </form>
+{% else %}
+<div>
+    현재 진행중인 설문이 없습니다.
+</div>
+{% endif %}
 {% endblock %}

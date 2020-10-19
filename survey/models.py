@@ -7,7 +7,8 @@ class Survey(models.Model):
     """
         설문 Model
     """
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, default="제목없음")
+    is_activated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
