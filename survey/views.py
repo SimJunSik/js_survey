@@ -226,6 +226,8 @@ def responser(request):
             data = request.POST.getlist(key)
             content = ", ".join(data)
 
+            # 넘겨 받은 key 값이 숫자문자열로만 구성된 경우
+            # key 값에 해당하는 value를 기반으로 새로운 Answer 생성
             if key.isnumeric():
                 answer_count = len(data)
                 question = Question.objects.get(id=key)
@@ -235,6 +237,8 @@ def responser(request):
                     content=content,
                     answer_count=answer_count
                 )
+            # 다중 선택 문항의 경우, key 값에 order를 포함하고 있음
+            # 해당하는 Answer의 기존 content를 ordered_content로 update
             elif 'order' in key:
                 question_id = key.split('_')[0].split('question')[1]
                 question = Question.objects.get(id=question_id)
@@ -282,9 +286,10 @@ def statistics(request):
 
 def download_result(reqeust):
     """
-        현재까지 저장된 설문결과를 응답자별로 저장한 result.csv 파일을
+        현재까지 저장된 설문결과의 문항별 통계 및 응답자별로 저장한 [%Y-%m-%d_%H:%M]result.csv 파일을
         http response에 붙여서 반환
     """
+    # HttpResponse 객체 생성 및 현재 날짜/시간 기반 csv 파일 제목 설정
     res = HttpResponse(content_type='text/csv')
     now = datetime.datetime.now()
     now_date = now.strftime('%Y-%m-%d_%H:%M')

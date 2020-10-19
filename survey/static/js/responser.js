@@ -49,27 +49,29 @@ const check_submit = async (event) => {
 document.addEventListener("DOMContentLoaded", function(){
     /*
         question_type == checkbox 인 Question에 대해
-        사용자의 선택 순서 저장
+        사용자의 선택 순서를 string 으로 저장
     */
     const checkBoxList = document.querySelectorAll('input[type=checkbox]');
     checkBoxList.forEach((checkBox) => {
         checkBox.addEventListener('change', (event) => {
-            const checkOrder = document.getElementById(`question${event.target.name}_order`);
-            const targetOrder = event.target.value;
+            const { target } = event;
+            const checkOrder = document.getElementById(`question${target.name}_order`);
+            const targetOrder = target.value;
             const prevOrder = checkOrder.value;
+
             let currentOrder = prevOrder;
-            if(event.target.checked){
+            if(target.checked){ // unchecked box 를 check 한 경우
                 if(currentOrder.length === 0){
                     currentOrder = targetOrder;
                 } else {
                     currentOrder = prevOrder + ', ' + targetOrder;
                 }
-            } else {
-                if(currentOrder === targetOrder){
+            } else { // checked box 를 uncheck 한 경우
+                if(currentOrder === targetOrder){ // EX> "SNS" 에서 'SNS' 제거
                     currentOrder = prevOrder.replace(targetOrder, '');
-                } else if(currentOrder.indexOf(targetOrder) === 0){
+                } else if(currentOrder.indexOf(targetOrder) === 0){ // EX> "SNS, 홈페이지" 에서 'SNS, ' 제거
                     currentOrder = prevOrder.replace(targetOrder + ', ', '');
-                } else{
+                } else{ // EX> "SNS, 홈페이지" 에서 ', 홈페이지' 제거
                     currentOrder = prevOrder.replace(', ' + targetOrder, '');
                 }
             }

@@ -14,6 +14,9 @@ class Survey(models.Model):
 
     @property
     def response_count(self):
+        """
+            해당 Survey 총 응답 갯수 return
+        """
         return self.responses.all().count()
 
 
@@ -40,7 +43,7 @@ class Question(models.Model):
     @property
     def answer_count(self):
         """
-            해당 Question 총 응답 갯수 return
+            해당 Question 총 답변 갯수 return
         """
         return self.answers.all().count()
 
@@ -102,6 +105,7 @@ class Answer(models.Model):
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE, related_name='answers')
     content = models.CharField(max_length=50)
+    # 다중 선택 문항의 경우, 몇 개의 답을 선택했는지 저장
     answer_count = models.IntegerField(default=1)
 
     def __str__(self):

@@ -12,6 +12,7 @@
 const drawChart = () => {
     const questions = document.querySelectorAll('.question-wrapper');
     let idx=1;
+    // 각 Question 순회
     questions.forEach((question) => {
         const questionType = question.dataset.type;
         const questionTitle = question.dataset.title;
@@ -20,11 +21,12 @@ const drawChart = () => {
         const optionArray = question.querySelectorAll('.option_response_rate');
         const dataArray = new Array();
         
+        // 답변이 0개인 Question은 차트 생성 X
         if(answerCount === '0'){
-            console.log("!!!");
             return;
         }
 
+        // 차트에 들어갈 data array 생성
         dataArray.push(['', questionTitle]);
         for(let i=0;i<contentArray.length;i++){
             dataArray.push([contentArray[i].innerHTML.trim(), parseFloat(optionArray[i].innerHTML.trim())]);
@@ -33,6 +35,7 @@ const drawChart = () => {
         const data = google.visualization.arrayToDataTable(dataArray);
         let options;
         let chart;
+        // Question type 에 따라 다른 종류의 차트 생성
         if(questionType === 'radio'){
             options = {
                 title: questionTitle,
