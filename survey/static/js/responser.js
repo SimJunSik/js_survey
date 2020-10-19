@@ -1,18 +1,3 @@
-const getCookie = (name) => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
 /*
     답변 선택 갯수 제한을 위한 함수
 */
@@ -35,7 +20,6 @@ const check_submit = async (event) => {
     */
     const checkBoxWrappers = document.getElementsByClassName('checkbox-wrapper');
     for (const checkBoxWrapper of checkBoxWrappers) {
-        console.log(checkBoxWrapper);
         const checkedCount = checkBoxWrapper.querySelectorAll('input:checked').length;
         if(checkedCount === 0){
             alert("체크 되지 않은 문항이 있습니다.");
@@ -47,10 +31,8 @@ const check_submit = async (event) => {
     const { target } = event;
     const responser = document.querySelector('input[name="phone_number"]').value;
     
-    const csrftoken = getCookie('csrftoken');
     const response = await fetch('/survey/check-duplicate-responser/', {
         method: 'POST',
-        headers: { "X-CSRFToken": csrftoken },
         body: JSON.stringify({
             'responser': responser,
         })

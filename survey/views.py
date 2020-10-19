@@ -1,9 +1,9 @@
 from django.http import HttpResponse
-import csv
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import csv
 
 from .models import *
 
@@ -291,10 +291,31 @@ def download_result(reqeust):
     responses = survey.responses.all()
     writer = csv.writer(res)
 
+    # 문항별 통계
+    writer.writerow(['', '', '', '', '', '문항별 통계'])
+    writer.writerow([])
+    questions = survey.questions.all()
+    for idx, question in enumerate(questions):
+        writer.writerow(['Q{}.'.format(idx+1), question.title])
+        writer.writerow(['type', question.question_type])
+        writer.writerow(['limit', question.limit])
+        writer.writerow(['옵션'])
+        for option in question.options.all():
+            response_rate = '{}%'.format(round(option.response_rate, 2))
+            writer.writerow(['', option.content, response_rate])
+        writer.writerow([])
+        writer.writerow([])
+
+    writer.writerow([])
+    writer.writerow([])
+
+    # 응답 리스트
+    writer.writerow(['', '', '', '', '', '응답 리스트'])
+    writer.writerow([])
     for response in responses:
         writer.writerow(['', '', '', '응답자', response.responser])
         for idx, answer in enumerate(response.answers.all()):
-            writer.writerow(['Q{}.'.format(idx+1), answer.question.title, ])
+            writer.writerow(['Q{}.'.format(idx+1), answer.question.title])
             writer.writerow(['type', answer.question.question_type])
             writer.writerow(['limit', answer.question.limit])
             writer.writerow(['옵션'])
@@ -320,6 +341,7 @@ def download_result(reqeust):
     return res
 
 
+@csrf_exempt
 def check_duplicate_responser(request):
     """
         설문 제출 시, 중복된 응답자인지 체크

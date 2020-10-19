@@ -1,18 +1,3 @@
-const getCookie = (name) => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
 /*
     questionId에 해당하는 Question에
     새로운 Option 생성을 호출하는 함수
@@ -20,10 +5,8 @@ const getCookie = (name) => {
 const addOption = async (target) => {
     const questionId = target.dataset.questionId;
 
-    const csrftoken = getCookie('csrftoken');
     const response = await fetch(`/survey/question/${questionId}/option/`, {
-        method: 'POST',
-        headers: { "X-CSRFToken": csrftoken },
+        method: 'POST'
     });
     const data = await response.json();
     if(data.result === 'SUCCESS'){
@@ -85,10 +68,8 @@ const deleteOption = async (target) => {
         return;
     }
 
-    const csrftoken = getCookie('csrftoken');
     const response = await fetch(`/survey/question/${questionId}/option/${optionId}/`, {
-        method: 'DELETE',
-        headers: { "X-CSRFToken": csrftoken },
+        method: 'DELETE'
     });
     const data = await response.json();
     if(data.result === 'SUCCESS'){
@@ -103,10 +84,8 @@ const deleteOption = async (target) => {
     현재 설문에 새로운 Question 생성을 호출하는 함수
 */
 const addQuestion = async (survey_id) => {
-    const csrftoken = getCookie('csrftoken');
     const response = await fetch('/survey/question/', {
         method: 'POST',
-        headers: { "X-CSRFToken": csrftoken },
         body: JSON.stringify({
             'survey_id': survey_id
         })
@@ -223,10 +202,8 @@ const saveSurveyAll = async (surveyId) => {
         questionObjs.push(questionObj);
     });
 
-    const csrftoken = getCookie('csrftoken');
     const response = await fetch('/survey/question/all/', {
         method: 'POST',
-        headers: { "X-CSRFToken": csrftoken },
         body: JSON.stringify({
             'survey': surveyObj,
             'questions': questionObjs
@@ -247,10 +224,8 @@ const deleteQuestion = async (target) => {
     const questionId = target.dataset.questionId;
     const targetQuestion = document.getElementById(`question${questionId}`);
 
-    const csrftoken = getCookie('csrftoken');
     const response = await fetch(`/survey/question/${questionId}/`, {
         method: 'DELETE',
-        headers: { "X-CSRFToken": csrftoken },
     })
     const data = await response.json();
     if(data.result === 'SUCCESS'){
@@ -268,10 +243,8 @@ const updateQuestion = async (target) => {
     const targetQuestion = document.getElementById(`question${questionId}`);
     const questionObj = getQuestionObj(targetQuestion);
 
-    const csrftoken = getCookie('csrftoken');
     const response = await fetch(`/survey/question/${questionId}/`, {
         method: 'PUT',
-        headers: { "X-CSRFToken": csrftoken },
         body: JSON.stringify({
             'question_obj': questionObj
         })
