@@ -20,7 +20,6 @@ const drawChart = () => {
         const optionArray = question.querySelectorAll('.option_response_rate');
         const dataArray = new Array();
         
-        console.log(answerCount);
         if(answerCount === '0'){
             console.log("!!!");
             return;

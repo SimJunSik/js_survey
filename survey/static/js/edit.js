@@ -5,7 +5,7 @@
 const addOption = async (target) => {
     const questionId = target.dataset.questionId;
 
-    const response = await fetch(`/survey/question/${questionId}/option/`, {
+    const response = await fetch(`/question/${questionId}/option/`, {
         method: 'POST'
     });
     const data = await response.json();
@@ -68,7 +68,7 @@ const deleteOption = async (target) => {
         return;
     }
 
-    const response = await fetch(`/survey/question/${questionId}/option/${optionId}/`, {
+    const response = await fetch(`/question/${questionId}/option/${optionId}/`, {
         method: 'DELETE'
     });
     const data = await response.json();
@@ -84,7 +84,7 @@ const deleteOption = async (target) => {
     현재 설문에 새로운 Question 생성을 호출하는 함수
 */
 const addQuestion = async (survey_id) => {
-    const response = await fetch('/survey/question/', {
+    const response = await fetch('/question/', {
         method: 'POST',
         body: JSON.stringify({
             'survey_id': survey_id
@@ -202,7 +202,7 @@ const saveSurveyAll = async (surveyId) => {
         questionObjs.push(questionObj);
     });
 
-    const response = await fetch('/survey/question/all/', {
+    const response = await fetch('/question/all/', {
         method: 'POST',
         body: JSON.stringify({
             'survey': surveyObj,
@@ -224,7 +224,7 @@ const deleteQuestion = async (target) => {
     const questionId = target.dataset.questionId;
     const targetQuestion = document.getElementById(`question${questionId}`);
 
-    const response = await fetch(`/survey/question/${questionId}/`, {
+    const response = await fetch(`/question/${questionId}/`, {
         method: 'DELETE',
     })
     const data = await response.json();
@@ -243,7 +243,7 @@ const updateQuestion = async (target) => {
     const targetQuestion = document.getElementById(`question${questionId}`);
     const questionObj = getQuestionObj(targetQuestion);
 
-    const response = await fetch(`/survey/question/${questionId}/`, {
+    const response = await fetch(`/question/${questionId}/`, {
         method: 'PUT',
         body: JSON.stringify({
             'question_obj': questionObj

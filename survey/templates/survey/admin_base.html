@@ -24,20 +24,20 @@
         </h2>
         <nav class="header-nav">
             {% if category == 'edit' %}
-                <a class="header-nav-active" href="/survey/edit/">편집</a>
-                <a href="/survey/statistics/">통계 보기</a>
-                <a href="/survey/responses/">응답별로 보기</a>
+                <a class="header-nav-active" href="/edit/">편집</a>
+                <a href="/statistics/">통계 보기</a>
+                <a href="/responses/">응답별로 보기</a>
             {% elif category == 'statistics' %}
-                <a href="/survey/edit/">편집</a>
-                <a class="header-nav-active" href="/survey/statistics/">통계 보기</a>
-                <a href="/survey/responses/">응답별로 보기</a>
+                <a href="/edit/">편집</a>
+                <a class="header-nav-active" href="/statistics/">통계 보기</a>
+                <a href="/responses/">응답별로 보기</a>
             {% elif category == 'responses' %}
-                <a href="/survey/edit/">편집</a>
-                <a href="/survey/statistics/">통계 보기</a>
-                <a class="header-nav-active" href="/survey/responses/">응답별로 보기</a>
+                <a href="/edit/">편집</a>
+                <a href="/statistics/">통계 보기</a>
+                <a class="header-nav-active" href="/responses/">응답별로 보기</a>
             {% endif %}
         </nav>
-        <a class="download-result" href="/survey/download-result/">설문결과 다운받기</a>
+        <a class="download-result" href="/download-result/">설문결과 다운받기</a>
     </header>
     <div class="blank-div"></div>
     <div class="container" id="container">

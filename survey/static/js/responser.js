@@ -31,7 +31,7 @@ const check_submit = async (event) => {
     const { target } = event;
     const responser = document.querySelector('input[name="phone_number"]').value;
     
-    const response = await fetch('/survey/check-duplicate-responser/', {
+    const response = await fetch('/check-duplicate-responser/', {
         method: 'POST',
         body: JSON.stringify({
             'responser': responser,

@@ -140,7 +140,8 @@ def delete_option(request, question_id, option_id):
 
         ---
         # Query Params
-            - option_id : Integer
+            - question_id : Integer
+            - option_id   : Integer
     """
     try:
         option = Option.objects.get(id=option_id)
@@ -244,7 +245,7 @@ def responser(request):
                 answer.content = content
                 answer.save()
 
-        return redirect('/survey/result/')
+        return redirect('/result/')
 
 
 def responser_result(request):
