@@ -13,7 +13,7 @@ const delete_survey = (survey_id) => {
 }
 
 /*
-    설문 응답 상태 toggle
+    설문 응답 활성화 상태 toggle
 */
 const toggle_survey = async (target, survey_id) => {
     const is_activated = target.dataset.isActivated;
@@ -322,42 +322,45 @@ const onChangeSelectType = (target) => {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-    /*
-        각 기능 버튼에 함수 등록
-    */
-    document.querySelector(".question-list").addEventListener('click', async (event) => {
-        const { target } = event;
-        if(target && target.className === 'question-delete-button'){
-            await deleteQuestion(target);
-        } else if(target && target.className === 'question-save-button'){
-            await updateQuestion(target);
-        } else if(target && target.className === 'option-delete-button'){
-            await deleteOption(target);
-        } else if(target && target.className === 'option-add-button'){
-            await addOption(target);
-        }
-    })
-    
-    /*
-        delegation을 통해 change 리스너 등록
-    */
-    document.querySelector(".question-list").addEventListener('change', (event) => {
-        const { target } = event;
-        if(target.className === 'question_type'){
-            onChangeSelectType(target);
-        } else if(target.className === 'question_limit'){ // input에 값을 직접 입력했을 때 max 값을 넘지 못하게 처리
-            const { value, max } = target;
-            if(value > max){
-                target.value = max;
+    const questionList = document.querySelector(".question-list");
+    if(questionList){
+        /*
+            각 기능 버튼에 함수 등록
+        */
+        questionList.addEventListener('click', async (event) => {
+            const { target } = event;
+            if(target && target.className === 'question-delete-button'){
+                await deleteQuestion(target);
+            } else if(target && target.className === 'question-save-button'){
+                await updateQuestion(target);
+            } else if(target && target.className === 'option-delete-button'){
+                await deleteOption(target);
+            } else if(target && target.className === 'option-add-button'){
+                await addOption(target);
             }
-        }
-    })
-    
-    /*
-        설문 제목 변경 시, 헤더 타이틀 변경 함수 등록
-    */
-    document.querySelector(".survey_title").addEventListener('change', (event) => {
-        const { target } = event;
-        document.querySelector(".header").innerHTML = target.value;
-    })
+        });
+        
+        /*
+            delegation을 통해 change 리스너 등록
+        */
+        questionList.addEventListener('change', (event) => {
+            const { target } = event;
+            if(target.className === 'question_type'){
+                onChangeSelectType(target);
+            } else if(target.className === 'question_limit'){ // input에 값을 직접 입력했을 때 max 값을 넘지 못하게 처리
+                const { value, max } = target;
+                if(value > max){
+                    target.value = max;
+                }
+            }
+        });
+
+        /*
+            설문 제목 변경 시, 헤더 타이틀 변경 함수 등록
+        */
+        document.querySelector(".survey_title").addEventListener('change', (event) => {
+            const { target } = event;
+            document.querySelector(".header").innerHTML = target.value;
+        });
+    }
 });
