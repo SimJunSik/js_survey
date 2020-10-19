@@ -1,3 +1,4 @@
+import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -284,12 +285,20 @@ def download_result(reqeust):
         http response에 붙여서 반환
     """
     res = HttpResponse(content_type='text/csv')
-    res['Content-Disposition'] = 'attachment; filename="result.csv"'
+    now = datetime.datetime.now()
+    now_date = now.strftime('%Y-%m-%d_%H:%M')
+    res['Content-Disposition'] = 'attachment; filename="[{}]result.csv"'.format(
+        now_date)
 
     survey = Survey.objects.filter(
         id=1).prefetch_related('responses__answers__question__options')[0]
     responses = survey.responses.all()
     writer = csv.writer(res)
+
+    # 현재 날짜/시간 표시
+    writer.writerow([])
+    writer.writerow(['', '', '', '', '', '', '', '', now_date])
+    writer.writerow([])
 
     # 문항별 통계
     writer.writerow(['', '', '', '', '', '문항별 통계'])
