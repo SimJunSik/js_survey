@@ -309,9 +309,11 @@ def download_result(reqeust):
         writer.writerow(['type', question.question_type])
         writer.writerow(['limit', question.limit])
         writer.writerow(['옵션'])
+
         for option in question.options.all():
             response_rate = '{}%'.format(round(option.response_rate, 2))
             writer.writerow(['', option.content, response_rate])
+
         writer.writerow([])
         writer.writerow([])
 
@@ -323,11 +325,15 @@ def download_result(reqeust):
     writer.writerow([])
     for response in responses:
         writer.writerow(['', '', '', '응답자', response.responser])
+        response_date = response.created_at.strftime('%Y-%m-%d_%H:%M')
+        writer.writerow(['', '', '', '응답날짜', response_date])
+
         for idx, answer in enumerate(response.answers.all()):
             writer.writerow(['Q{}.'.format(idx+1), answer.question.title])
             writer.writerow(['type', answer.question.question_type])
             writer.writerow(['limit', answer.question.limit])
             writer.writerow(['옵션'])
+
             if answer.question.question_type == 'checkbox':
                 for option in answer.question.options.all():
                     if option.content in answer.content:
@@ -344,6 +350,7 @@ def download_result(reqeust):
                     else:
                         check = ''
                     writer.writerow(['', option.content, check])
+
             writer.writerow([])
             writer.writerow([])
 
