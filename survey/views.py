@@ -358,6 +358,7 @@ def download_result(reqeust):
         writer.writerow(['Q{}.'.format(idx+1), question.title])
         writer.writerow(['type', question.question_type])
         writer.writerow(['limit', question.limit])
+        writer.writerow(['응답수', '{} 개'.format(question.answer_count)])
         writer.writerow(['옵션'])
 
         for option in question.options.all():
