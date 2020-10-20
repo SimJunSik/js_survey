@@ -96,10 +96,10 @@ button:hover {
   /* end header */
   /* common button */
   button {
-    padding: 10px 25px;
+    padding: 10px 20px;
     background-color: #ff6b6b;
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   /* end common button */
   /* container */

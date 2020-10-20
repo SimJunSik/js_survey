@@ -15,9 +15,8 @@
     <input type="text" class="survey_title" placeholder="설문지 제목 입력" value="{{survey.title}}">
 </div>
 <div class="survey-button-wrapper">
-    <button onclick="addQuestion({{survey.id}})">질문 추가</button>
-    <button onclick="saveSurveyAll({{survey.id}})">설문 전체 저장</button>
-    <button onclick="delete_survey({{survey.id}})">설문 삭제</button>
+    <button onclick="saveSurveyAll({{survey.id}})">전체 저장</button>
+    <button onclick="delete_survey({{survey.id}})">전체 삭제</button>
     {% if survey.is_activated %}
         <button 
             id="survey-toggle-button" 
@@ -33,6 +32,9 @@
             응답 활성화
         </button>
     {% endif %}
+    <div>
+        <button onclick="addQuestion({{survey.id}})">질문 추가</button>
+    </div>
 </div>
 <ul class="question-list">
     {% for question in survey.questions.all %}

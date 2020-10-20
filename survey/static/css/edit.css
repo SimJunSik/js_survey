@@ -12,6 +12,7 @@
 }
 .survey-button-wrapper {
   margin: 10px 0px;
+  text-align: center;
 }
 .survey_title {
   width: 95%;
@@ -93,7 +94,7 @@ input:focus {
     position: relative;
     height: auto;
     padding: 80px 20px;
-    border: 1px solid midnightblue;
+    border: 1px solid #dbe4ff;
   }
   .question > input {
     font-size: 0.8rem;
