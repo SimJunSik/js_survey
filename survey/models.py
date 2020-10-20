@@ -25,17 +25,20 @@ class Question(models.Model):
     """
         질문 Model
     """
+    SELECT = 'SL'
+    RADIO = 'RD'
+    CHECKBOX = 'CHB'
     TYPE_CHOICES = (
-        ('select', 'select'),
-        ('radio', 'radio'),
-        ('checkbox', 'checkbox'),
+        (SELECT, 'select'),
+        (RADIO, 'radio'),
+        (CHECKBOX, 'checkbox'),
     )
 
     survey = models.ForeignKey(
         Survey, on_delete=models.CASCADE, related_name='questions', null=True, blank=True)
     title = models.CharField(max_length=100, default='제목없음')
     question_type = models.CharField(
-        max_length=10, choices=TYPE_CHOICES, default='select')
+        max_length=10, choices=TYPE_CHOICES, default=SELECT)
     limit = models.IntegerField(default=1)
 
     def __str__(self):

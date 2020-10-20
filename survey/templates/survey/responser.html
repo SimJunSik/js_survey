@@ -27,7 +27,7 @@
             {% endif %}
         </div>
         <div class="option_list">
-            {% if question.question_type == 'radio' %}
+            {% if question.get_question_type_display == 'radio' %}
                 {% for option in question.options.all %}
                     <div class="option">
                         <input 
@@ -41,13 +41,13 @@
                         </label>
                     </div>
                 {% endfor %}
-            {% elif question.question_type == 'select' %}
+            {% elif question.get_question_type_display == 'select' %}
                 <select name="{{question.id}}">
                 {% for option in question.options.all %}       
                     <option value="{{option.content}}">{{option.content}}</option>
                 {% endfor %}
                 </select>
-            {% elif question.question_type == 'checkbox' %}
+            {% elif question.get_question_type_display == 'checkbox' %}
                 <div id="question{{question.id}}_option"
                     class="checkbox-wrapper"
                     onclick="return check_limit(this)" 

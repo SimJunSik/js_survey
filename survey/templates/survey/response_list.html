@@ -39,7 +39,7 @@
                 <h4 class="question_title">
                     {{answer.question}}
                 </h4>
-                {% if answer.question.question_type == 'radio' %}
+                {% if answer.question.get_question_type_display == 'radio' %}
                     {% for option in answer.question.options.all %}
                         <div class="question_option">
                             {% if option.content == answer.content %}
@@ -52,7 +52,7 @@
                             </label>
                         </div>
                     {% endfor %}
-                {% elif answer.question.question_type == 'select' %}     
+                {% elif answer.question.get_question_type_display == 'select' %}     
                     <select name="{{question.id}}" disabled>
                         {% for option in answer.question.options.all %}
                             {% if option.content == answer.content %}
@@ -62,7 +62,7 @@
                             {% endif %}
                         {% endfor %}
                     </select>
-                {% elif answer.question.question_type == 'checkbox' %}
+                {% elif answer.question.get_question_type_display == 'checkbox' %}
                         {% for option in answer.question.options.all %}
                         <div class="question_option">
                             {% if option.content in answer.content %}

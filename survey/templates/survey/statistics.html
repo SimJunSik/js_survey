@@ -11,20 +11,20 @@
 통계
 {% endblock %}
 {% block content %}
-{% if survey.responses.all.count > 0 %}
+{% if survey.response_count > 0 %}
     <div class="question-list">
     {% for question in survey.questions.all %}
         <div 
             id="{{question.id}}" 
             class="question-wrapper" 
             data-title="{{question.title}}" 
-            data-type="{{question.question_type}}"
+            data-type="{{question.get_question_type_display}}"
             data-answer-count="{{question.answers.all.count}}">
             <h2 class="question_title">
                 {{question.title}}
             </h2>
             <div class="question_response_count">
-                응답: <strong>{{question.answers.all.count}}</strong> 개
+                응답: <strong>{{question.answer_count}}</strong> 개
             </div>
             <ul class="option_list">
                 {% for option in question.options.all %}
@@ -38,11 +38,11 @@
                     </li>
                 {% endfor %}
             </ul>
-            {% if question.question_type == 'radio' %}
+            {% if question.get_question_type_display == 'radio' %}
                 <div id="piechart{{forloop.counter}}" class="pie_chart"></div>
-            {% elif question.question_type == 'checkbox' %}
+            {% elif question.get_question_type_display == 'checkbox' %}
                 <div id="top_x_div{{forloop.counter}}" class="bar_chart"></div>
-            {% elif question.question_type == 'select' %}
+            {% elif question.get_question_type_display == 'select' %}
                 <div id="piechart{{forloop.counter}}" class="pie_chart"></div>
             {% endif %}
             <br><br>

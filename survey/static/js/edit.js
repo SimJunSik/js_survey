@@ -238,7 +238,6 @@ const saveSurveyAll = async (surveyId) => {
     const questionObjs = [];
     questions.forEach((question) => {
         const questionObj = getQuestionObj(question);
-        
         questionObjs.push(questionObj);
     });
 
@@ -285,7 +284,6 @@ const updateQuestion = async (target) => {
     const questionId = target.dataset.questionId;
     const targetQuestion = document.getElementById(`question${questionId}`);
     const questionObj = getQuestionObj(targetQuestion);
-
     const response = await fetch(`/question/${questionId}/`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -309,7 +307,7 @@ const onChangeSelectType = (target) => {
     const question = document.getElementById(questionId);
     const questionLimit = question.querySelector('input[type=number]');
 
-    if(target.value === 'checkbox'){
+    if(target.value === 'CHB'){
         const limit = questionLimit.dataset.limit;
         questionLimit.setAttribute('max', limit);
         questionLimit.removeAttribute('disabled');

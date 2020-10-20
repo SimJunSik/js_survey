@@ -56,21 +56,21 @@
                 name="question{{question.id}}_type" 
                 id="question{{question.id}}_type" 
                 class="question_type">
-                {% if question.question_type == 'select' %}
-                    <option value="radio">radio</option>
-                    <option value="checkbox">checkbox</option>
-                    <option value="select" selected>select</option>
-                {% elif question.question_type == 'checkbox' %}
-                    <option value="radio">radio</option>
-                    <option value="checkbox" selected>checkbox</option>
-                    <option value="select">select</option>
-                {% elif question.question_type == 'radio' %}
-                    <option value="radio" selected>radio</option>
-                    <option value="checkbox">checkbox</option>
-                    <option value="select">select</option>
+                {% if question.get_question_type_display == 'select' %}
+                    <option value="RD">radio</option>
+                    <option value="CHB">checkbox</option>
+                    <option value="SL" selected>select</option>
+                {% elif question.get_question_type_display == 'checkbox' %}
+                    <option value="RD">radio</option>
+                    <option value="CHB" selected>checkbox</option>
+                    <option value="SL">select</option>
+                {% elif question.get_question_type_display == 'radio' %}
+                    <option value="RD" selected>radio</option>
+                    <option value="CHB">checkbox</option>
+                    <option value="SL">select</option>
                 {% endif %}
             </select>
-            {% if question.question_type == 'checkbox' %}
+            {% if question.get_question_type_display == 'checkbox' %}
                 <input 
                     type="number" 
                     class="question_limit" 
