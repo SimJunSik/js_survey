@@ -417,7 +417,7 @@ def check_duplicate_responser(request):
     responser = req_json.get('responser')
     response = Response.objects.filter(responser=responser)
 
-    if response:
+    if response.exists():
         return JsonResponse({
             'result': 'FAILED',
             'description': 'DUPLICATED RESPONSER'

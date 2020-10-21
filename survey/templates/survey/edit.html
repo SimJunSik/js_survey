@@ -21,14 +21,14 @@
         <button 
             id="survey-toggle-button" 
             onclick="toggle_survey(this, {{survey.id}})" 
-            data-is-activated="활성화">
+            data-is-activated="비활성화">
             응답 비활성화
         </button>
     {% else %}
         <button 
             id="survey-toggle-button"
             onclick="toggle_survey(this, {{survey.id}})" 
-            data-is-activated="비활성화">
+            data-is-activated="활성화">
             응답 활성화
         </button>
     {% endif %}

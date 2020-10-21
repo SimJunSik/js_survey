@@ -23,11 +23,11 @@ const toggle_survey = async (target, survey_id) => {
         const data = await response.json();
         if(data.result === 'SUCCESS'){
             if(is_activated === '활성화'){
-                target.innerHTML = '응답 활성화';
-                target.setAttribute('data-is-activated', '비활성화');
-            } else {
                 target.innerHTML = '응답 비활성화';
-                target.setAttribute('data-is-activated', '활성화');
+                target.dataset.isActivated = '비활성화';
+            } else {
+                target.innerHTML = '응답 활성화';
+                target.dataset.isActivated = '활성화';
             }
         } else {
             alert(`응답 ${is_activated} 실패`);
